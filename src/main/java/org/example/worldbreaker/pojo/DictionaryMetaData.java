@@ -7,9 +7,10 @@ import java.util.HashSet;
 @Component
 public class DictionaryMetaData {
 
+    // dictionary set
     public static HashSet<String> dictionarySet = new HashSet<>();
 
-    public static final String DICTIONARY_PATH = "classpath:dictionary/customer.txt";
-
+    // word content
     public static String WORLD;
+
 }

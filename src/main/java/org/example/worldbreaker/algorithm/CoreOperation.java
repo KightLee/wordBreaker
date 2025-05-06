@@ -9,15 +9,22 @@ import java.util.*;
 @Slf4j
 public class CoreOperation {
 
+    /**
+     * generate handle method
+     * @param set
+     * @param str2
+     * @param map
+     * @return
+     */
     public List<String> recursion(Set<String> set, String str2, HashMap<Integer, List<List<String>>> map) {
         // char change
-        List<String> head = recursionV1(set, str2);
+        List<String> head = charRecursion(set, str2);
         // String change
-        List<List<String>> lists = recursionV3(0, set, head, map);
-
-        List<String> result = new ArrayList<>();
-        if (!lists.isEmpty()) {
-            result.addAll(lists.stream()
+        List<List<String>> resultList = backtrack(0, set, head, map);
+        // exchange the result from back up
+        List<String> result = new ArrayList<>(resultList.size());
+        if (!resultList.isEmpty()) {
+            result.addAll(resultList.stream()
                     .peek(Collections::reverse)
                     .map(this::ListToFinalString)
                     .toList());
@@ -25,8 +32,14 @@ public class CoreOperation {
         return result;
     }
 
+    /**
+     * char change
+     * @param set
+     * @param str2
+     * @return
+     */
 
-    public List<String> recursionV1(Set<String> set, String str2) {
+    public List<String> charRecursion(Set<String> set, String str2) {
         List<String> outputArr = new ArrayList<>();
         int flag = 0;
         char[] target = str2.toCharArray();
@@ -45,32 +58,39 @@ public class CoreOperation {
     }
 
 
-    public List<List<String>> recursionV3(int start, Set<String> set, List<String> arr, HashMap<Integer, List<List<String>>> map) {
+    /**
+     * backtrack: world arr merge dictionary
+     * @param start
+     * @param set
+     * @param arr
+     * @param map
+     * @return
+     */
+    public List<List<String>> backtrack(int start, Set<String> set, List<String> arr, HashMap<Integer, List<List<String>>> map) {
+        // optimize code ， using map cache store kv
         if (map.containsKey(start)) {
             return map.get(start);
         }
 
         List<List<String>> resultArr = new ArrayList<>();
         if (start == arr.size()) {
-            // 终点
-//                List<String> str = new ArrayList<>();
-//                str.add(arr.get(start));
+            // end
             resultArr.add(new ArrayList<>());
             return resultArr;
         } else {
-            // 递归
+            // recursion
             for (int i = start; i < arr.size(); i++) {
                 String tmpWorld = mergeWorld(start, i, arr);
                 if (set.contains(tmpWorld)) {
                     int param = i + 1;
-                    List<List<String>> lists = recursionV3(param, set, arr, map);
+                    List<List<String>> lists = backtrack(param, set, arr, map);
                     for (List<String> list : lists) {
                         List<String> subList = new ArrayList<>(list);
                         subList.add(tmpWorld);
                         resultArr.add(subList);
                     }
                 }
-                log.info("currentWord: " + resultArr);
+                log.debug("currentWord: " + resultArr);
                 map.put(start, resultArr);
             }
 
@@ -79,6 +99,11 @@ public class CoreOperation {
     }
 
 
+    /**
+     * List to String
+     * @param recursion
+     * @return
+     */
     private String ListToFinalString(List<String> recursion) {
         StringBuilder output = new StringBuilder();
         for (String s : recursion) {
@@ -89,12 +114,26 @@ public class CoreOperation {
         return callbackWord;
     }
 
+    /**
+     * merge word from List
+     * @param from
+     * @param to
+     * @param arr
+     * @return
+     */
     public String mergeWorld(Integer from, Integer to, List<String> arr) {
         StringBuilder sb = new StringBuilder();
         arr.subList(from, to + 1).stream().filter(Objects::nonNull).forEach(sb::append);
         return sb.toString();
     }
 
+    /**
+     * merge word from String
+     * @param from
+     * @param to
+     * @param arr
+     * @return
+     */
     public String mergeWorld(Integer from, Integer to, String arr) {
         if (from < 0 || to < 0 || to < from) {
             throw new RuntimeException("err point");

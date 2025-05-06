@@ -13,7 +13,6 @@ import java.util.*;
 @Slf4j
 class WorldBreakerApplicationTests {
 
-    // mock data
     private static final String testStrList = "i, like, sam, sung, samsung, mobile, ice, cream, man, go, gmo, ilikesam, sungmobile";
 
     private static final String testStr = "ilikesamsungmobile";
@@ -29,6 +28,7 @@ class WorldBreakerApplicationTests {
     private DictionaryReader dictionaryReader;
 
     static {
+        // mock dictionary set
         List<String> strArr = Arrays.stream(testStrList.split(",")).map(String::trim).toList();
         set.addAll(strArr);
     }
@@ -42,6 +42,9 @@ class WorldBreakerApplicationTests {
         strArr.forEach(log::info);
     }
 
+    /**
+     * testing char merge algorithm
+     */
     @Test
     void coreAlgorithmTest() {
         int flag = 0;
@@ -67,6 +70,9 @@ class WorldBreakerApplicationTests {
 
     }
 
+    /**
+     * testing generate handle method
+     */
     @Test
     void coreAlgorithm_Version2_Test() {
         List<String> recursion = coreOperation.recursion(set, testStr, null);
@@ -82,12 +88,18 @@ class WorldBreakerApplicationTests {
     }
 
 
+    /**
+     * merge world testing
+     */
     @Test
     void getWorld_Test() {
         ArrayList<String> list = new ArrayList<>(set);
         log.info("merge #########   " + coreOperation.mergeWorld(0, 1, list));
     }
 
+    /**
+     * file testing
+     */
     @Test
     void fileWorld_Test() {
         dictionaryReader.loadDictionary();

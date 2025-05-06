@@ -35,6 +35,7 @@ public class DictionaryReader implements InitializingBean {
 
     private static final String DICTIONARY_PATH = "classpath:dictionary/";
 
+    // load properties and choose the dictionary use switch achieve strategy
     public void loadDictionary() {
         StageEnum stageEnum = StageEnum.getStage(stage);
         switch (stageEnum) {
@@ -88,7 +89,7 @@ public class DictionaryReader implements InitializingBean {
     }
 
     @Override
-    public void afterPropertiesSet() throws Exception {
+    public void afterPropertiesSet() {
         loadDictionary();
     }
 }

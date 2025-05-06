@@ -5,6 +5,7 @@ import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.example.worldbreaker.algorithm.CoreOperation;
 import org.example.worldbreaker.pojo.DictionaryMetaData;
+import org.example.worldbreaker.validation.WordValidator;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.HashMap;
@@ -18,11 +19,13 @@ public class ConsoleConfig {
     @Resource
     private CoreOperation coreOperation;
 
-    private HashMap<Integer, List<List<String>>> cacheMap = new HashMap<>();
+    // cache Map
+    private final HashMap<Integer, List<List<String>>> cacheMap = new HashMap<>();
 
 
     @PostConstruct
     public void init() {
+        // access user inout and output the answer
         new Thread(() -> {
             Scanner scanner = new Scanner(System.in);
             while (true) {
@@ -30,9 +33,9 @@ public class ConsoleConfig {
                     try {
                         System.out.println("> ");
                         String input = scanner.nextLine().trim();
-                        if (input.contains(" ") || input.isEmpty()) {
-                            System.out.println("do nothing ! ~~~ input world has space, check you world");
-                            return;
+                        if (!input.isBlank() && !WordValidator.isValid(input)) {
+                            System.out.println("do nothing ! ~~~ input world has error, check you world");
+                            continue;
                         }
 
                         DictionaryMetaData.WORLD = input;
@@ -40,8 +43,9 @@ public class ConsoleConfig {
                         System.out.println("input:" + DictionaryMetaData.WORLD);
                         System.out.println("\n=====================================\n");
                         recursion.forEach(info -> System.out.println("output:" + info));
+
                     } catch (Exception e) {
-                        log.error(e.getMessage());
+                        log.error("execute err, reason: {}", e.getLocalizedMessage());
                     } finally {
                         cacheMap.clear();
                     }

@@ -4,8 +4,6 @@ import java.util.regex.Pattern;
 
 public class WordValidator {
 
-    public static final Pattern FILE_REGEX_STR = Pattern.compile("\\{\\^(?i)[A-Za-z]+}");;
-
     // input regex
     public static final Pattern INPUT_REGEX_STR = Pattern.compile("^(?i)[A-Za-z]+$");
 
@@ -13,7 +11,4 @@ public class WordValidator {
         return INPUT_REGEX_STR.matcher(str).matches();
     }
 
-    public static boolean isFile(String str) {
-        return FILE_REGEX_STR.matcher(str).matches();
-    }
 }

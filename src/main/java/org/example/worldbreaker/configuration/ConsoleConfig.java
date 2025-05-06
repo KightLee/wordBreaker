@@ -33,7 +33,7 @@ public class ConsoleConfig {
                     try {
                         System.out.println("> ");
                         String input = scanner.nextLine().trim();
-                        if (!input.isBlank() && !WordValidator.isValid(input)) {
+                        if (input.isBlank() || !WordValidator.isValid(input)) {
                             System.out.println("do nothing ! ~~~ input world has error, check you world");
                             continue;
                         }

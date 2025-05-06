@@ -7,7 +7,10 @@ import org.example.worldbreaker.file.DictionaryReader;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
 
 @SpringBootTest
 @Slf4j

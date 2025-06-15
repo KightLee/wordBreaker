@@ -1,9 +1,9 @@
 spring:
   application:
     name: worldBreaker
-  main:
-    log-startup-info: false
-    banner-mode: off
+#  main:
+#    log-startup-info:
+#    banner-mode: off
 logging:
   level:
     root: info
@@ -14,3 +14,6 @@ world_stage:
 #  phase: 2
 #  name: diy.txt # if phase == 2 , the value that can avilable
 #  phase: 3 # all file pattern will avilable
+
+server:
+  port: 9000
